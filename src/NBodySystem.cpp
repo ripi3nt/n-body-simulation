@@ -6,8 +6,8 @@
 #include "Vec2D.hpp"
 #include "Particle.hpp"
 #include "NBodySystem.hpp"
+#include "Config.hpp"
 
-extern const bool debug;
 
 NBodySystem::NBodySystem(const float gravConstant, const float softening, const std::pair<int, int> fieldSize, const int particleCount) : gravConstant(gravConstant), softening(softening), fieldSize(fieldSize) {
   if(debug) std::cout << "Initial positions: ";

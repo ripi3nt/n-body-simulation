@@ -1,7 +1,6 @@
+#include <string>
 #include <SFML/Window/ContextSettings.hpp>
 #include <SFML/Window/WindowEnums.hpp>
-#include <string>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
