@@ -30,7 +30,7 @@ void NBodySystem::update(float timeDelta) {
     momentum += particles[i].vel;
     if(debug) std::cout << "{" << particles[i].pos.x << ", " << particles[i].pos.y << "}, ";
   }
-
+  if (debug) std::cout << "Total momentum: " << momentum.x << momentum.y << std::endl;
 }
 
 const std::vector<Particle>& NBodySystem::getParticles() {
