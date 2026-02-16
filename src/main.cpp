@@ -1,3 +1,5 @@
+#include <SFML/Window/Event.hpp>
+#include <optional>
 #include <string>
 #include <SFML/Window/ContextSettings.hpp>
 #include <SFML/Window/WindowEnums.hpp>
@@ -28,7 +30,15 @@ int main(int argc, char* argv[]) {
   sf::Clock clock;
 
   float timeStep;
-  while(true) {
+  while(window.isOpen()) {
+
+    while(const std::optional event = window.pollEvent()) {
+
+      if(event->is<sf::Event::Closed>()) {
+        window.close();
+      }
+    }
+
     window.clear();
 
     timeStep = std::min(clock.restart().asSeconds(), 0.01f);

@@ -12,7 +12,7 @@
 NBodySystem::NBodySystem(const float gravConstant, const float softening, const std::pair<int, int> fieldSize, const int particleCount) : gravConstant(gravConstant), softening(softening), fieldSize(fieldSize) {
   if(debug) std::cout << "Initial positions: ";
   for (int i = 0; i < particleCount; i++) {
-    Particle particle = { randomFloat(fieldSize.first), randomFloat(fieldSize.second), 0, randomFloat(10) };
+    Particle particle = { randomFloat(fieldSize.first), randomFloat(fieldSize.second), 0, randomFloat(40) };
     particles.push_back(particle); 
 
     if(debug) std::cout << "{" << particles[i].pos.x << ", " << particles[i].pos.y << "}, ";
