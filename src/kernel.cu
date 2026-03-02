@@ -71,6 +71,7 @@ void freeGPU(void* addr) {
 }
 
 void CudaManager::updateParticles(float timeDelta) {
+  cudaMemset(this->accs, 0, this->particleCount * sizeof(Vec2));
   update<<<1, this->particleCount>>>(this->particles, this->particleCount, timeDelta, this->accs);
   cudaDeviceSynchronize();
 }
