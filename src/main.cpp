@@ -9,16 +9,33 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <iostream>
+#include <vector>
 
 #include "Vec2D.hpp"
 #include "NBodySystem.hpp"
 #include "Config.hpp"
 
+float randomFloat(int max) {
+  int num = rand() % max;
+  return (float) num;
+}
+
 
 int main(int argc, char* argv[]) {
   int particleCount = std::stoi(argv[1]); 
 
-  NBodySystem sys(gravConstant, softening, std::pair<int,int>{screenW, screenH}, particleCount);
+  std::vector<Particle> particles;
+  if(debug) std::cout << "Initial positions: ";
+  for (int i = 0; i < particleCount; i++) {
+    Particle particle = { randomFloat(screenW), randomFloat(screenH), 0, randomFloat(40) };
+    particles.push_back(particle); 
+
+    if(debug) std::cout << "{" << particles[i].pos.x << ", " << particles[i].pos.y << "}, ";
+  }
+
+
+  NBodySystem sys(std::pair<int,int>{screenW, screenH}, particles);
 
   //graphics
   const float shapeSize = 3.0f;
@@ -42,19 +59,17 @@ int main(int argc, char* argv[]) {
     window.clear();
 
     timeStep = std::min(clock.restart().asSeconds(), 0.01f);
-    sys.update(timeStep);
+    sys.updateCUDA(timeStep);
 
     Vec2 momentum = {0.0f, 0.0f};
+    const std::span<Particle>& particles = sys.getParticles();
     for (int i = 0; i < particleCount; i++) {
-      const std::vector<Particle>& particles = sys.getParticles();
 
       shape.setPosition({particles[i].pos.x, particles[i].pos.y});
       window.draw(shape);
     }
 
-
     window.display();
-
 
   }
 

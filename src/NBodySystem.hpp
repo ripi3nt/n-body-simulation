@@ -1,18 +1,19 @@
+#include <span>
 #include <vector>
+#include "CudaManager.hpp"
 #include "Particle.hpp"
 
 class NBodySystem {
 
   public: 
-    NBodySystem(const float gravConstant, const float softening, const std::pair<int, int> fieldSize, const int particleCount);
+    NBodySystem(const std::pair<int, int> fieldSize, std::vector<Particle>& particles);
     void update(float timeDelta);
-    const std::vector<Particle>& getParticles();
+    void updateCUDA(float timeDelta);
+    const std::span<Particle>& getParticles();
 
   private:
-    const float gravConstant;
-    const float softening;
     const std::pair<int, int> fieldSize;
-    std::vector<Particle> particles;
-    float randomFloat(int max);
+    CudaManager manager;
+    std::span<Particle> particles;
     std::vector<Vec2> computeAccelarations();
 };

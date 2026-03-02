@@ -3,21 +3,15 @@
 #include <vector>
 #include <cmath>
 
+#include "CudaManager.hpp"
 #include "Vec2D.hpp"
 #include "Particle.hpp"
 #include "NBodySystem.hpp"
 #include "Config.hpp"
 
 
-NBodySystem::NBodySystem(const float gravConstant, const float softening, const std::pair<int, int> fieldSize, const int particleCount) : gravConstant(gravConstant), softening(softening), fieldSize(fieldSize) {
-  if(debug) std::cout << "Initial positions: ";
-  for (int i = 0; i < particleCount; i++) {
-    Particle particle = { randomFloat(fieldSize.first), randomFloat(fieldSize.second), 0, randomFloat(40) };
-    particles.push_back(particle); 
-
-    if(debug) std::cout << "{" << particles[i].pos.x << ", " << particles[i].pos.y << "}, ";
-  }
-
+NBodySystem::NBodySystem(const std::pair<int, int> fieldSize, std::vector<Particle>& particles) : fieldSize(fieldSize), manager(particles) {
+  this->particles = std::span(particles);
 }
 
 void NBodySystem::update(float timeDelta) {
@@ -31,15 +25,12 @@ void NBodySystem::update(float timeDelta) {
     if(debug) std::cout << "{" << particles[i].pos.x << ", " << particles[i].pos.y << "}, ";
   }
   if (debug) std::cout << "Total momentum: " << momentum.x << momentum.y << std::endl;
+
+  //handle collisions between particles
 }
 
-const std::vector<Particle>& NBodySystem::getParticles() {
+const std::span<Particle>& NBodySystem::getParticles() {
   return particles;
-}
-
-float NBodySystem::randomFloat(int max) {
-  int num = rand() % max;
-  return (float) num;
 }
 
 std::vector<Vec2> NBodySystem::computeAccelarations() {
@@ -66,3 +57,8 @@ std::vector<Vec2> NBodySystem::computeAccelarations() {
   return accs;
 }
 
+void NBodySystem::updateCUDA(float timeDelta) {
+  manager.updateParticles(timeDelta);
+
+  particles = manager.getParticles();
+}

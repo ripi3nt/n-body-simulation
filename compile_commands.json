@@ -1,0 +1,108 @@
+[
+  {
+    "file": "./src/CudaManager.cpp",
+    "arguments": [
+      "nvcc",
+      "-std=c++20",
+      "-o",
+      "./out/sim.out",
+      "./src/CudaManager.cpp"
+    ],
+    "directory": "/home/ripient/projects/n-body",
+    "output": "./out/sim.out"
+  },
+  {
+    "file": "./src/main.cpp",
+    "arguments": [
+      "nvcc",
+      "-std=c++20",
+      "-o",
+      "./out/sim.out",
+      "./src/main.cpp"
+    ],
+    "directory": "/home/ripient/projects/n-body",
+    "output": "./out/sim.out"
+  },
+  {
+    "file": "./src/NBodySystem.cpp",
+    "arguments": [
+      "nvcc",
+      "-std=c++20",
+      "-o",
+      "./out/sim.out",
+      "./src/NBodySystem.cpp"
+    ],
+    "directory": "/home/ripient/projects/n-body",
+    "output": "./out/sim.out"
+  },
+  {
+    "file": "./src/kernel.cu",
+    "arguments": [
+      "nvcc",
+      "-std=c++20",
+      "-o",
+      "./out/sim.out",
+      "./src/kernel.cu"
+    ],
+    "directory": "/home/ripient/projects/n-body",
+    "output": "./out/sim.out"
+  },
+  {
+    "file": "./src/CudaManager.cpp",
+    "arguments": [
+      "g++",
+      "-std=c++20",
+      "-D__CUDA_ARCH_LIST__=750",
+      "-c",
+      "-x",
+      "c++",
+      "-D__NVCC__",
+      "-Wno-psabi",
+      "-I/opt/cuda/bin/../targets/x86_64-linux/include",
+      "-isystem",
+      "/opt/cuda/bin/../targets/x86_64-linux/include/cccl",
+      "-D__CUDACC_VER_MAJOR__=13",
+      "-D__CUDACC_VER_MINOR__=1",
+      "-D__CUDACC_VER_BUILD__=115",
+      "-D__CUDA_API_VER_MAJOR__=13",
+      "-D__CUDA_API_VER_MINOR__=1",
+      "-D__NVCC_DIAG_PRAGMA_SUPPORT__=1",
+      "-D__CUDACC_DEVICE_ATOMIC_BUILTINS__=1",
+      "-m64",
+      "./src/CudaManager.cpp",
+      "-o",
+      "/tmp/tmpxft_0000f311_00000000-9_CudaManager.o"
+    ],
+    "directory": "/home/ripient/projects/n-body",
+    "output": "/tmp/tmpxft_0000f311_00000000-9_CudaManager.o"
+  },
+  {
+    "file": "./src/main.cpp",
+    "arguments": [
+      "g++",
+      "-std=c++20",
+      "-D__CUDA_ARCH_LIST__=750",
+      "-c",
+      "-x",
+      "c++",
+      "-D__NVCC__",
+      "-Wno-psabi",
+      "-I/opt/cuda/bin/../targets/x86_64-linux/include",
+      "-isystem",
+      "/opt/cuda/bin/../targets/x86_64-linux/include/cccl",
+      "-D__CUDACC_VER_MAJOR__=13",
+      "-D__CUDACC_VER_MINOR__=1",
+      "-D__CUDACC_VER_BUILD__=115",
+      "-D__CUDA_API_VER_MAJOR__=13",
+      "-D__CUDA_API_VER_MINOR__=1",
+      "-D__NVCC_DIAG_PRAGMA_SUPPORT__=1",
+      "-D__CUDACC_DEVICE_ATOMIC_BUILTINS__=1",
+      "-m64",
+      "./src/main.cpp",
+      "-o",
+      "/tmp/tmpxft_0000f311_00000000-10_main.o"
+    ],
+    "directory": "/home/ripient/projects/n-body",
+    "output": "/tmp/tmpxft_0000f311_00000000-10_main.o"
+  }
+]
