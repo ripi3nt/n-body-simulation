@@ -4,6 +4,10 @@ A real-time 2D gravitational N-body simulation written in **C++20**, accelerated
 
 The physics computation runs entirely on the GPU. Rendering is handled on the CPU.
 
+<p align="center">
+  <img src="simulation.gif" width="600">
+</p>
+
 ---
 
 ## Overview
