@@ -7,16 +7,16 @@
 //extern __shared__ Vec2 sharedAccs[];
 
 __device__ void moveParticle(Particle* data, Vec2* accs, const int countG, float timeDelta) {
-  const int i = threadIdx.x;
+  const int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-    data[i].vel.x += accs[i].x * timeDelta;
-    data[i].vel.y += accs[i].y * timeDelta;
-    data[i].pos.x += data[i].vel.x * timeDelta;
-    data[i].pos.y += data[i].vel.y * timeDelta;
+  data[i].vel.x += accs[i].x * timeDelta;
+  data[i].vel.y += accs[i].y * timeDelta;
+  data[i].pos.x += data[i].vel.x * timeDelta;
+  data[i].pos.y += data[i].vel.y * timeDelta;
 }
 
 __device__ void calculateAcc(Particle* data,const int countG, Vec2* output) {
-  const int first = threadIdx.x;
+  const int first = blockIdx.x * blockDim.x + threadIdx.x;
   for (int second = 0; second < countG; second++) {
 
     if(first == second) continue;
@@ -40,7 +40,7 @@ __device__ void calculateAcc(Particle* data,const int countG, Vec2* output) {
 }
 
 __device__ void checkBounds(Particle* data, const int countG) {
-  const int i = threadIdx.x;
+  const int i = blockIdx.x * blockDim.x + threadIdx.x;
 
   if(data[i].pos.x < 0 || data[i].pos.x > screenW) {
     data[i].vel.x *= -1;
@@ -51,8 +51,9 @@ __device__ void checkBounds(Particle* data, const int countG) {
 }
 
 __global__ void update(Particle* particles,const int countG, float timeDelta, Vec2* accs) {
+  const int i = blockIdx.x * blockDim.x + threadIdx.x;
+  if(i >= countG) return;
   calculateAcc(particles, countG, accs);
-  __syncthreads();
   moveParticle(particles, accs, countG, timeDelta);
   checkBounds(particles, countG);
 }
@@ -72,7 +73,8 @@ void freeGPU(void* addr) {
 
 void CudaManager::updateParticles(float timeDelta) {
   cudaMemset(this->accs, 0, this->particleCount * sizeof(Vec2));
-  update<<<1, this->particleCount>>>(this->particles, this->particleCount, timeDelta, this->accs);
+  const int clusterCount = this->particleCount / 1024 + 1;
+  update<<<clusterCount, 1024>>>(this->particles, this->particleCount, timeDelta, this->accs);
   cudaDeviceSynchronize();
 }
 
