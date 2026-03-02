@@ -26,6 +26,19 @@ Current implementation is **O(n²)**.
 
 ---
 
+## Performance
+
+Tested on:
+
+- CPU: AMD Ryzen 7 2700X  
+- GPU: NVIDIA RTX 2060  
+
+Measured time to perform **10,000 physics steps** (O(n²)).
+
+| Particles | CPU (single-threaded) | GPU(CUDA) |
+|-----------|-----------------------|-----------|
+| 1000      | 279.13 seconds        | 42.62 seconds |
+
 ## Build
 
 Requirements:

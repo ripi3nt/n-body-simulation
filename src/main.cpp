@@ -47,7 +47,8 @@ int main(int argc, char* argv[]) {
   sf::Clock clock;
 
   float timeStep;
-  while(window.isOpen()) {
+  int steps = 10000;
+  while(steps--) {
 
     while(const std::optional event = window.pollEvent()) {
 
